@@ -1,60 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Admin Panel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      background:#000;
-      color:gold;
-      font-family:Arial;
-      padding:20px;
-    }
-    .box {
-      max-width:400px;
-      margin:auto;
-      border:1px solid gold;
-      padding:20px;
-      border-radius:10px;
-    }
-    input, button {
-      width:100%;
-      padding:12px;
-      margin-top:10px;
-      border-radius:5px;
-      border:none;
-    }
-    button {
-      background:gold;
-      font-weight:bold;
-    }
-    .order {
-      border:1px solid gold;
-      padding:10px;
-      margin-top:10px;
-    }
-  </style>
-</head>
-
-<body>
-
-<div class="box" id="loginBox">
-  <h2>Admin Login</h2>
-  <input type="password" id="password" placeholder="Enter Password">
-  <button onclick="login()">Login</button>
-</div>
-
-<div class="box" id="adminBox" style="display:none">
-  <h2>Admin Panel</h2>
-  <div id="orders"></div>
-</div>
-
 <script>
-  const ADMIN_PASSWORD = "earnwallet123";
+  // default password (first time)
+  if (!localStorage.getItem("adminPassword")) {
+    localStorage.setItem("adminPassword", "earnwallet123");
+  }
 
   function login() {
     const pass = document.getElementById("password").value;
-    if (pass === ADMIN_PASSWORD) {
+    const savedPass = localStorage.getItem("adminPassword");
+
+    if (pass === savedPass) {
       document.getElementById("loginBox").style.display = "none";
       document.getElementById("adminBox").style.display = "block";
       loadOrders();
@@ -66,6 +20,7 @@
   function loadOrders() {
     const orders = JSON.parse(localStorage.getItem("orders")) || [];
     const container = document.getElementById("orders");
+    container.innerHTML = "";
 
     if (orders.length === 0) {
       container.innerHTML = "No orders yet";
@@ -82,7 +37,31 @@
       `;
     });
   }
-</script>
 
-</body>
-</html>
+  // CHANGE PASSWORD FUNCTION
+  function changePassword() {
+    const oldPass = document.getElementById("oldPass").value;
+    const newPass = document.getElementById("newPass").value;
+    const savedPass = localStorage.getItem("adminPassword");
+
+    if (oldPass !== savedPass) {
+      alert("Old password incorrect");
+      return;
+    }
+
+    if (newPass.length < 4) {
+      alert("Password too short");
+      return;
+    }
+
+    localStorage.setItem("adminPassword", newPass);
+    alert("Password changed successfully");
+    document.getElementById("oldPass").value = "";
+    document.getElementById("newPass").value = "";
+  }
+</script><hr style="border-color:gold">
+
+<h3>Change Password</h3>
+<input type="password" id="oldPass" placeholder="Old Password">
+<input type="password" id="newPass" placeholder="New Password">
+<button onclick="changePassword()">Change Password</button>
