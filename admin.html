@@ -1,136 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>EarnWallet Admin</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <title>Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: gold;
+      background:#000;
+      color:gold;
+      font-family:Arial;
+      padding:20px;
     }
-
-    header {
-      background: linear-gradient(90deg, #000, #1a1a1a);
-      padding: 15px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-      border-bottom: 1px solid gold;
+    .box {
+      max-width:400px;
+      margin:auto;
+      border:1px solid gold;
+      padding:20px;
+      border-radius:10px;
     }
-
-    .container {
-      padding: 15px;
+    input, button {
+      width:100%;
+      padding:12px;
+      margin-top:10px;
+      border-radius:5px;
+      border:none;
     }
-
+    button {
+      background:gold;
+      font-weight:bold;
+    }
     .order {
-      background: #111;
-      border: 1px solid gold;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 15px;
-    }
-
-    .order p {
-      margin: 6px 0;
-      font-size: 14px;
-    }
-
-    .btn {
-      padding: 6px 10px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 13px;
-      margin-right: 5px;
-    }
-
-    .approve {
-      background: gold;
-      color: black;
-    }
-
-    .reject {
-      background: red;
-      color: white;
-    }
-
-    .delete {
-      background: #444;
-      color: white;
-    }
-
-    .empty {
-      text-align: center;
-      color: #777;
-      margin-top: 30px;
+      border:1px solid gold;
+      padding:10px;
+      margin-top:10px;
     }
   </style>
 </head>
+
 <body>
 
-  <header>EarnWallet Admin Panel</header>
+<div class="box" id="loginBox">
+  <h2>Admin Login</h2>
+  <input type="password" id="password" placeholder="Enter Password">
+  <button onclick="login()">Login</button>
+</div>
 
-  <div class="container" id="orders"></div>
+<div class="box" id="adminBox" style="display:none">
+  <h2>Admin Panel</h2>
+  <div id="orders"></div>
+</div>
 
-  <script>
-    // Get orders from localStorage
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+<script>
+  const ADMIN_PASSWORD = "earnwallet123";
 
-    const ordersDiv = document.getElementById("orders");
+  function login() {
+    const pass = document.getElementById("password").value;
+    if (pass === ADMIN_PASSWORD) {
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("adminBox").style.display = "block";
+      loadOrders();
+    } else {
+      alert("Wrong password");
+    }
+  }
 
-    function renderOrders() {
-      ordersDiv.innerHTML = "";
+  function loadOrders() {
+    const orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const container = document.getElementById("orders");
 
-      if (orders.length === 0) {
-        ordersDiv.innerHTML = "<div class='empty'>No orders found</div>";
-        return;
-      }
-
-      orders.forEach((order, index) => {
-        const div = document.createElement("div");
-        div.className = "order";
-
-        div.innerHTML = `
-          <p><b>Name:</b> ${order.name}</p>
-          <p><b>Bank:</b> ${order.bank}</p>
-          <p><b>IFSC:</b> ${order.ifsc}</p>
-          <p><b>Status:</b> ${order.status || "Pending"}</p>
-
-          <button class="btn approve" onclick="approveOrder(${index})">Approve</button>
-          <button class="btn reject" onclick="rejectOrder(${index})">Reject</button>
-          <button class="btn delete" onclick="deleteOrder(${index})">Delete</button>
-        `;
-
-        ordersDiv.appendChild(div);
-      });
+    if (orders.length === 0) {
+      container.innerHTML = "No orders yet";
+      return;
     }
 
-    function approveOrder(i) {
-      orders[i].status = "Approved";
-      save();
-    }
-
-    function rejectOrder(i) {
-      orders[i].status = "Rejected";
-      save();
-    }
-
-    function deleteOrder(i) {
-      orders.splice(i, 1);
-      save();
-    }
-
-    function save() {
-      localStorage.setItem("orders", JSON.stringify(orders));
-      renderOrders();
-    }
-
-    renderOrders();
-  </script>
+    orders.forEach(o => {
+      container.innerHTML += `
+        <div class="order">
+          Name: ${o.name}<br>
+          Bank: ${o.bank}<br>
+          IFSC: ${o.ifsc}
+        </div>
+      `;
+    });
+  }
+</script>
 
 </body>
 </html>
