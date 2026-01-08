@@ -1,67 +1,55 @@
-<script>
-  // default password (first time)
-  if (!localStorage.getItem("adminPassword")) {
-    localStorage.setItem("adminPassword", "earnwallet123");
-  }
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: gold;
+  font-family: Arial, sans-serif;
+}
 
-  function login() {
-    const pass = document.getElementById("password").value;
-    const savedPass = localStorage.getItem("adminPassword");
+/* Center box */
+#loginBox, #adminBox {
+  max-width: 350px;
+  margin: 60px auto;
+  padding: 20px;
+  background: #111;
+  border: 1px solid gold;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255,215,0,0.3);
+}
 
-    if (pass === savedPass) {
-      document.getElementById("loginBox").style.display = "none";
-      document.getElementById("adminBox").style.display = "block";
-      loadOrders();
-    } else {
-      alert("Wrong password");
-    }
-  }
+h2, h3 {
+  text-align: center;
+  color: gold;
+}
 
-  function loadOrders() {
-    const orders = JSON.parse(localStorage.getItem("orders")) || [];
-    const container = document.getElementById("orders");
-    container.innerHTML = "";
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  background: #000;
+  border: 1px solid gold;
+  color: gold;
+  border-radius: 5px;
+}
 
-    if (orders.length === 0) {
-      container.innerHTML = "No orders yet";
-      return;
-    }
+input::placeholder {
+  color: #c9b037;
+}
 
-    orders.forEach(o => {
-      container.innerHTML += `
-        <div class="order">
-          Name: ${o.name}<br>
-          Bank: ${o.bank}<br>
-          IFSC: ${o.ifsc}
-        </div>
-      `;
-    });
-  }
+button {
+  width: 100%;
+  padding: 10px;
+  background: gold;
+  color: black;
+  border: none;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-  // CHANGE PASSWORD FUNCTION
-  function changePassword() {
-    const oldPass = document.getElementById("oldPass").value;
-    const newPass = document.getElementById("newPass").value;
-    const savedPass = localStorage.getItem("adminPassword");
+button:hover {
+  background: #ffcc00;
+}
 
-    if (oldPass !== savedPass) {
-      alert("Old password incorrect");
-      return;
-    }
-
-    if (newPass.length < 4) {
-      alert("Password too short");
-      return;
-    }
-
-    localStorage.setItem("adminPassword", newPass);
-    alert("Password changed successfully");
-    document.getElementById("oldPass").value = "";
-    document.getElementById("newPass").value = "";
-  }
-</script><hr style="border-color:gold">
-
-<h3>Change Password</h3>
-<input type="password" id="oldPass" placeholder="Old Password">
-<input type="password" id="newPass" placeholder="New Password">
-<button onclick="changePassword()">Change Password</button>
+.order
