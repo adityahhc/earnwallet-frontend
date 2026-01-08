@@ -2,20 +2,21 @@
 body {
   margin: 0;
   padding: 0;
-  background: #000;
-  color: gold;
+  background: linear-gradient(135deg, #FFD700, #FFB800);
+  color: #000;
   font-family: Arial, sans-serif;
+  min-height: 100vh;
 }
 
-/* Center box */
+/* Center boxes */
 #loginBox, #adminBox {
-  max-width: 350px;
-  margin: 60px auto;
+  max-width: 360px;
+  margin: 80px auto;
   padding: 20px;
-  background: #111;
-  border: 1px solid gold;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(255,215,0,0.3);
+  background: #000;
+  color: gold;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
 h2, h3 {
@@ -27,24 +28,24 @@ input {
   width: 100%;
   padding: 10px;
   margin: 8px 0;
-  background: #000;
+  background: #111;
   border: 1px solid gold;
   color: gold;
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
 input::placeholder {
-  color: #c9b037;
+  color: #d4af37;
 }
 
 button {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   background: gold;
   color: black;
   border: none;
   font-weight: bold;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
@@ -52,4 +53,11 @@ button:hover {
   background: #ffcc00;
 }
 
-.order
+.order {
+  background: #111;
+  border: 1px solid gold;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
+}
+</style>
