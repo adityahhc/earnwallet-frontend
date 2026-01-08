@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EarnWallet Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { background:#000; color:gold; font-family:sans-serif; padding:20px }
+    .card { background:#111; border:1px solid gold; padding:15px; margin-top:10px }
+  </style>
+</head>
+<body>
+
+<h2>Admin Panel</h2>
+
+<div id="orders"></div>
+
+<script>
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+  const box = document.getElementById("orders");
+
+  if (orders.length === 0) {
+    box.innerHTML = "<p>No orders yet</p>";
+  } else {
+    orders.forEach(o => {
+      box.innerHTML += `
+        <div class="card">
+          <p>Name: ${o.name}</p>
+          <p>Bank: ${o.bank}</p>
+          <p>IFSC: ${o.ifsc}</p>
+        </div>
+      `;
+    });
+  }
+</script>
+
+</body>
+</html>
